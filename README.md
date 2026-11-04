@@ -6,6 +6,7 @@ arrives. Until then, you only see the title and a live countdown.
 
 ![Screenshot of the app](docs/screenshot.png)
 
+🌐 **Live demo:** https://USERNAME.pythonanywhere.com
 ## Features
 
 - Write a capsule with a title, message, author and open date
@@ -106,10 +107,16 @@ time-capsule/
   `innerHTML`, so any HTML or scripts are shown as plain text.
 - **Server-side validation:** the browser checks input for convenience, but
   the API validates everything again, since it can be called directly.
+## Known limitations
+
+- There is no user authentication, so anyone with the link can create
+  or delete capsules.
+- The server uses UTC, so capsules unlock at midnight UTC.
+- Hosted on a free PythonAnywhere account, which must be renewed
+  regularly to stay online.
 
 ## Development
 
 Built for the Information System Development course (WS26) at the
 University of Liechtenstein. The code was written step by step with the
-help of an LLM chat assistant for explanations, as allowed for this
-assignment.
+help of an LLM chat assistant for explanations.
