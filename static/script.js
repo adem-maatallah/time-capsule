@@ -30,6 +30,8 @@ async function loadCapsules() {
     for (const capsule of capsules) {
         list.appendChild(createCapsuleItem(capsule));
     }
+
+    updateCountdowns();
 }
 
 function createCapsuleItem(capsule) {
@@ -37,19 +39,24 @@ function createCapsuleItem(capsule) {
     li.className = capsule.locked ? "capsule locked" : "capsule unlocked";
 
     const title = document.createElement("h3");
-    title.textContent = capsule.title;
+    title.textContent = (capsule.locked ? "🔒 " : "🔓 ") + capsule.title;
 
     const info = document.createElement("p");
     if (capsule.locked) {
-        const dayWord = capsule.days_left === 1 ? "day" : "days";
-        info.textContent = `🔒 Opens in ${capsule.days_left} ${dayWord} (${formatDate(capsule.open_date)}) · by ${capsule.author}`;
+        info.textContent = `by ${capsule.author} · opens on ${formatDate(capsule.open_date)}`;
     } else {
-        info.textContent = `🔓 Ready to open · by ${capsule.author}`;
+        info.textContent = `by ${capsule.author} · ready to open!`;
     }
 
     li.append(title, info);
 
-    if (!capsule.locked) {
+    if (capsule.locked) {
+        const countdown = document.createElement("span");
+        countdown.className = "countdown";
+        countdown.dataset.openDate = capsule.open_date;
+        li.appendChild(countdown);
+        li.appendChild(document.createElement("br"));
+    } else {
         const openBtn = document.createElement("button");
         openBtn.textContent = "Open";
         openBtn.addEventListener("click", () => openCapsule(capsule.id));
@@ -126,5 +133,34 @@ async function deleteCapsule(id) {
 document.getElementById("reader-close").addEventListener("click", () => {
     reader.classList.add("hidden");
 });
+function updateCountdowns() {
+    const now = new Date();
+    let somethingUnlocked = false;
 
+    document.querySelectorAll(".countdown").forEach((el) => {
+        const openTime = new Date(el.dataset.openDate + "T00:00:00");
+        let seconds = Math.floor((openTime - now) / 1000);
+
+        if (seconds <= 0) {
+            somethingUnlocked = true;
+            return;
+        }
+
+        const days = Math.floor(seconds / 86400);
+        seconds %= 86400;
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        const pad = (n) => String(n).padStart(2, "0");
+        el.textContent = `${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    });
+
+    if (somethingUnlocked) {
+        loadCapsules();
+    }
+}
+
+setInterval(updateCountdowns, 1000);
 loadCapsules();
