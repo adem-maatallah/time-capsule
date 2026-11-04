@@ -6,7 +6,7 @@ arrives. Until then, you only see the title and a live countdown.
 
 ![Screenshot of the app](docs/screenshot.png)
 
-🌐 **Live demo:** https://USERNAME.pythonanywhere.com
+🌐 **Live demo:** https://ademMaatallah.pythonanywhere.com
 ## Features
 
 - Write a capsule with a title, message, author and open date
