@@ -1,1 +1,57 @@
-<h1>Time Capsule</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Time Capsule</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>⏳ Digital Time Capsule</h1>
+        <p>Write a message to the future. It stays locked until the day you choose.</p>
+    </header>
+
+    <main>
+        <section id="create-section">
+            <h2>Write a capsule</h2>
+            <form id="capsule-form">
+                <label for="title">Title</label>
+                <input type="text" id="title" required maxlength="100">
+
+                <label for="author">Your name</label>
+                <input type="text" id="author" required maxlength="50">
+
+                <label for="message">Message</label>
+                <textarea id="message" rows="5" required></textarea>
+
+                <label for="open_date">Open on</label>
+                <input type="date" id="open_date" required>
+
+                <p id="form-error" class="error"></p>
+                <button type="submit">🔒 Seal capsule</button>
+            </form>
+        </section>
+
+        <section id="list-section">
+            <h2>Capsules</h2>
+            <p id="empty-text">No capsules yet. Write the first one!</p>
+            <ul id="capsule-list"></ul>
+        </section>
+    </main>
+
+    <div id="reader" class="hidden">
+        <div class="reader-box">
+            <button id="reader-close">✕</button>
+            <h2 id="reader-title"></h2>
+            <p id="reader-meta"></p>
+            <p id="reader-message"></p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
